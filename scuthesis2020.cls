@@ -3,7 +3,8 @@
 % 作者：LegendaryLeo
 % 修改人：Kevin T. Lee [hello@lidengju.com]
 % 修改人：Michael Lee [mikecovlee@163.com]
-% 修改日期：2025年3月13日
+% 修改人：Hugh Liu [hughnash@qq.com]
+% 修改日期：2026年3月11日
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{./Template/scuthesis2020}[2020/06/01]
 
@@ -363,7 +364,7 @@
 		numberformat={\bfseries},
 		% 设置序号和各级标题之间为一个空格，这里范例和写作说明不一致
 		aftername={\hspace{\ccwd}},
-		beforeskip={0pt},
+		beforeskip={24pt},
 		afterskip={18pt}
 	},
 	% “节”标题，四号黑体，左对齐，段前24pt，段后16pt
@@ -521,16 +522,16 @@
 		\setlength{\baselineskip}{20pt}
 		\thispagestyle{empty}
         \begin{center}
-            \zihao{4}\rm{声\hspace{1em}明}
+            \zihao{4}\rm{声\hspace{2em}明}
         \end{center}
         
-		本人声明所呈交的学位论文是本人在导师指导下进行的研究工作及取得的研究成果。据我所知，除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，也不包含为获得四川大学或其他教育机构的学位或证书而使用过的材料。与我一同工作的同志对本研究所做的任何贡献均已在论文中作了明确的说明并表示谢意。
+		\zihao{5}本人声明所呈交的学位论文是本人在导师指导下进行的研究工作及取得的研究成果。据我所知，除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果，也不包含为获得四川大学或其他教育机构的学位或证书而使用过的材料。与我一同工作的同志对本研究所做的任何贡献均已在论文中作了明确的说明并表示谢意。
 
 		本学位论文成果是本人在四川大学读书期间在导师指导下取得的，论文成果归四川大学所有，特此声明。
-		\vspace{1cm}
+		\vspace{1em}
 		\autograph
 
-        \vspace{3cm}
+        \zihao{4}\vspace{3em}
 
         \begin{center}
             \zihao{4}\rm{学位论文使用授权书}
@@ -538,10 +539,10 @@
         % \chapter*{声\hspace{1em}明}
 		% \thispagestyle{empty}
         
-		本学位论文作者完全了解四川大学有关保留、使用学位论文的规定，同意学校保留并向国家有关部门或相关机构送交论文的原件、复印件和电子版，允许论文被查阅和借阅。本人授权四川大学将本学位论文的全部或部分内容编入有关数据库进行信息技术服务，可以采用影印、缩印或扫描等复制手段保存、汇编学位论文，并用于学术活动。
+		\zihao{5}本学位论文作者完全了解四川大学有关保留、使用学位论文的规定，同意学校保留并向国家有关部门或相关机构送交论文的原件、复印件和电子版，允许论文被查阅和借阅。本人授权四川大学将本学位论文的全部或部分内容编入有关数据库进行信息技术服务，可以采用影印、缩印或扫描等复制手段保存、汇编学位论文，并用于学术活动。
 
 		（涉密学位论文在解密后适用于本授权书）
-		\vspace{1cm}
+		\vspace{1em}
 		\autograph
 	}
 }{}
@@ -573,12 +574,12 @@
 	\addcontentsline{toc}{chapter}{#1}\phantomsection
 }
 
-% 定义\autograph命令，生成版权授权书等的签名栏。
+% 定义\autograph命令，生成版权授权书等的签名栏。（2026）
 \newcommand{\autograph}{
 	\begin{center}
-		\begin{tabular*}{\textwidth}{p{0.5\textwidth}p{0.5\textwidth}}
-			\hspace{1.6em}作者签名：& 导师签名：\\[1cm]
-			\hspace{1.6em} & \quad \qquad 年 \qquad 月 \qquad 日
+		\begin{tabular*}{\textwidth}{p{0.25\textwidth}p{0.25\textwidth}p{0.25\textwidth}p{0.25\textwidth}}
+			& 作者签名： & \centering 导师签名： & \\[1em]
+			& & \multicolumn{2}{l}{\hspace{5.5em} 年 \qquad 月 \qquad 日} 
 		\end{tabular*}
 	\end{center}
 }
