@@ -4,7 +4,7 @@
 % 修改人：Kevin T. Lee [hello@lidengju.com]
 % 修改人：Michael Lee [mikecovlee@163.com]
 % 修改人：Hugh Liu [hughnash@qq.com]
-% 修改日期：2026年3月11日
+% 修改日期：2026年3月20日
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{./Template/scuthesis2020}[2020/06/01]
 
@@ -39,6 +39,8 @@
 \RequirePackage{notoccite}
 % 加入hyperref超链接参考
 \RequirePackage{hyperref}
+% 使用hyperref宏包去除索引上的颜色标记
+\hypersetup{pdfborder=0 0 0}
 % fancyhdr 宏包提供了方便使用的命令用于设置页眉、页脚。
 \RequirePackage{fancyhdr}
 % 加入判断支持
@@ -304,9 +306,6 @@
 % 使用epstopdf宏包重定向eps输出路径，避免图片错误
 % \RequirePackage[outdir=./]{epstopdf}
 
-% 使用hyperref宏包去除索引上的颜色标记
-\RequirePackage{hyperref}
-\hypersetup{pdfborder=0 0 0}
 % 使用tocloft宏包修改目录样式
 \RequirePackage{tocloft}
 % 目录中不显示目录项、图表目录项
@@ -753,6 +752,12 @@
 \newcommand{\crefmiddleconjunction}{,}
 \newcommand{\creflastconjunction}{,}
 \newcommand{\crefrangeconjunction}{-}
+
+% 设置送审版本判断
+\newcommand{\ifapproval}[2]{
+    \ifnum\approval=1 #1 \else #2 \fi
+}
+
 % 加载配置文件
 \AtEndOfClass{\input{./Template/scuthesis.def}}
 \endinput
