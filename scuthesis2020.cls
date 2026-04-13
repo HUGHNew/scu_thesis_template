@@ -4,7 +4,7 @@
 % 修改人：Kevin T. Lee [hello@lidengju.com]
 % 修改人：Michael Lee [mikecovlee@163.com]
 % 修改人：Hugh Liu [hughnash@qq.com]
-% 修改日期：2026年3月20日
+% 修改日期：2026年4月9日
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{./Template/scuthesis2020}[2020/06/01]
 
@@ -65,6 +65,12 @@
 \renewcommand{\algorithmicrequire}{\textbf{输入:}}  
 \renewcommand{\algorithmicensure}{\textbf{输出:}}
 
+% 引入 etoolbox 宏包用于给环境打补丁
+\RequirePackage{etoolbox}
+
+% 将所有标准表格环境的默认内容字体设置为 5 号字
+% \AtBeginEnvironment{tabular}{\zihao{5}} % 似乎有问题
+
 % 此包用于双语图表标题
 \RequirePackage[list=off]{bicaption}
 \RequirePackage{subcaption}
@@ -80,11 +86,20 @@
 % 手动载入xeCJKfntef包，用于兼容2.5以上的ctex版本
 \RequirePackage{xeCJKfntef}
 
-%使用geometry调整边距
+% 使用geometry调整边距 (严格按照 Word 版式要求换算)
 \RequirePackage{geometry}
-\geometry{a4paper,papersize={21cm,29.7cm}}
-\geometry{left=2.5cm,right=2.5cm,top=2.75cm,bottom=3cm,headsep=0.32cm,footskip=1cm}
-% bottom为2.5 + 0.5cm，考虑到footer的高度，这样与word一致
+\geometry{
+    a4paper,
+    papersize={21cm,29.7cm},
+    left=2.5cm,         % 左边距
+    right=2.5cm,        % 右边距
+    top=2.75cm,         % 上边距 (纸张上边缘到正文)
+    bottom=2.5cm,       % 下边距 (纸张下边缘到正文)
+    headheight=15pt,    % 页眉文本高度 (防止 fancyhdr 宏包警告)
+    headsep=0.5cm,      % 页眉底端到正文顶端的距离 (加上 headheight 约等于 1cm，确保页眉距顶边缘 1.75cm)
+    footskip=0.75cm,    % 正文底端到页脚的距离 (2.5cm - 1.75cm = 0.75cm，确保页脚距底边缘刚好 1.75cm)
+    bindingoffset=0cm   % 装订线 0cm
+}
 % \setlength{\topskip}{0.3cm}
 % \renewcommand{\baselinestretch}{1.5}
 \setlength{\baselineskip}{20pt}
@@ -363,7 +378,7 @@
 		numberformat={\bfseries},
 		% 设置序号和各级标题之间为一个空格，这里范例和写作说明不一致
 		aftername={\hspace{\ccwd}},
-		beforeskip={24pt},
+		beforeskip={0pt}, % 防止与 headsep 叠加
 		afterskip={18pt}
 	},
 	% “节”标题，四号黑体，左对齐，段前24pt，段后16pt
@@ -429,21 +444,44 @@
 \end{figure}
 }
 
-% 定义目录标题格式，三号黑体居中，段前后距10pt
-\renewcommand\contentsname{目\hspace{1em}录}
+% ----------------------------------------------------
+% 目录排版设置 (满足指定排版要求)
+% ----------------------------------------------------
+% 控制目录显示层级：0=章, 1=节, 2=小节 (即四级节标题不在目录中列出)
+\setcounter{tocdepth}{2} 
+
+% 【标题】三号黑体加粗居中，中间空1个汉字符，段前24磅，段后18磅
+% (修复字体问题：去除了干扰的 \rm，强制使用 \heiti)
+\renewcommand\contentsname{\rm\heiti 目\hspace{1em}录}
 \renewcommand{\cfttoctitlefont}{\hfill\zihao{3}\rm\heiti\bfseries}
-\renewcommand{\cftchapfont}{\zihao{-4}\rm\heiti}
-\renewcommand{\cftsecfont}{\zihao{-4}\rm\songti}
 \renewcommand{\cftaftertoctitle}{\hfill}
-%此处魔改目录标题前间距
-\renewcommand{\cftbeforetoctitleskip}{8pt}
-\renewcommand{\cftaftertoctitleskip}{10pt}
-% 定义引导线格式，为点，点距0.5，章节标题也使用引导线
+\setlength{\cftbeforetoctitleskip}{0pt} % 防止与 headsep 叠加
+\setlength{\cftaftertoctitleskip}{18pt}
+
+% 定义引导线格式，为点，点距0.5，各级标题均使用引导线
 \renewcommand{\cftdot}{.}
 \renewcommand{\cftdotsep}{0.5}
 \renewcommand{\cftchapdotsep}{\cftdotsep}
-% 定义章节目录项前后距
-\renewcommand{\cftbeforechapskip}{6pt}
+
+% 【一级章标题目录】黑体小四号，单倍行距，段前6磅，段后0磅
+\renewcommand{\cftchapfont}{\zihao{-4}\heiti}
+\renewcommand{\cftchappagefont}{\zihao{-4}\rmfamily} % 页码用TNR
+\setlength{\cftbeforechapskip}{6pt}
+% 整体先缩进2.25em，编号预留4em宽度(为了装下“第 X 章”这几个字)
+\cftsetindents{chap}{2.25em}{4em}
+% \cftsetindents{chap}{1em}{4em} 
+
+% 【二级节标题目录】宋体小四号，段前6磅，段后0磅
+\renewcommand{\cftsecfont}{\zihao{-4}\songti}
+\renewcommand{\cftsecpagefont}{\zihao{-4}\rmfamily}
+\setlength{\cftbeforesecskip}{6pt}
+\cftsetindents{sec}{3.25em}{2em} % 缩进1em，编号预留2em宽度
+
+% 【三级节标题目录】宋体小四号，段前6磅，段后0磅
+\renewcommand{\cftsubsecfont}{\zihao{-4}\songti}
+\renewcommand{\cftsubsecpagefont}{\zihao{-4}\rmfamily}
+\setlength{\cftbeforesubsecskip}{6pt}
+\cftsetindents{subsec}{4.25em}{2.5em} % 缩进2em，编号预留2.5em宽度
 
 % 定义\maketoc命令，将自动生成符合要求的目录。
 \newcommand{\maketoc}{
@@ -614,7 +652,7 @@
 \newenvironment{CHSabstract}
 {
 	\makefancyhf{摘要}
-	\chapter{摘\hspace{1em}要}
+	\chapter[摘要]{摘\hspace{1em}要}
 	\zihao{-4}
 	%\ \\[-0.5cm]
 }
