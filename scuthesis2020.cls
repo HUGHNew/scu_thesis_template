@@ -280,7 +280,7 @@
 
 \newcommand{\makeENGkeywords}{
 \vspace{1em}\par
-\textbf{Keywords：}\@ENGkeywords
+\textbf{Keywords:}\@ENGkeywords
 \addcontentsline{toc}{chapter}{Abstract}
 }
 
